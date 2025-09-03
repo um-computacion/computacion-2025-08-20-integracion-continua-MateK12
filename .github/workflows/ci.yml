@@ -1,4 +1,4 @@
-name: CI with Coverage and SonarCloud
+name: CI with Coverage and Pylint
 
 on:
   push:
@@ -33,18 +33,6 @@ jobs:
           coverage run -m unittest discover
           coverage xml -o cobertura.xml
           coverage report -m > coverage_report.txt
-
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=
-            -Dsonar.organization=
-            -Dsonar.python.coverage.reportPaths=cobertura.xml
-            -Dsonar.sources=.
 
       - name: Run Pylint and generate report
         run: |
